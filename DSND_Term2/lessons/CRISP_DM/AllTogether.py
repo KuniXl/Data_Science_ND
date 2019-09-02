@@ -104,6 +104,7 @@ def find_optimal_lm_mod(X, y, cutoffs, test_size = .30, random_state=42, plot=Tr
         r2_scores_test.append(r2_score(y_test, y_test_preds))
         r2_scores_train.append(r2_score(y_train, y_train_preds))
         results[str(cutoff)] = r2_score(y_test, y_test_preds)
+        
 
     if plot:
         plt.plot(num_feats, r2_scores_test, label="Test", alpha=.5)
@@ -113,11 +114,15 @@ def find_optimal_lm_mod(X, y, cutoffs, test_size = .30, random_state=42, plot=Tr
         plt.title('Rsquared by Number of Features')
         plt.legend(loc=1)
         plt.show()
-
+    
+    print(results)
     best_cutoff = max(results, key=results.get)
+    print(best_cutoff)
+    print(X.sum())
 
     #reduce X matrix
     reduce_X = X.iloc[:, np.where((X.sum() > int(best_cutoff)) == True)[0]]
+    print(reduce_X)
     num_feats.append(reduce_X.shape[1])
 
     #split the data into train and test
